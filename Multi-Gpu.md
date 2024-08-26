@@ -7,8 +7,8 @@ This project uses Ray to manage VM instances for distributed computing. In this 
 1. **Clone the repository:**
    
    ```bash
-   git clone <input-placeholder>
-   cd <project-directory>
+   git clone ray-distributed-compute.git
+   cd ray-distributed-compute
    ```
 
 2. **Install Ray:**
