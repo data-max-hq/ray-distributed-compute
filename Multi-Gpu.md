@@ -1,6 +1,7 @@
-# Ray Project Setup
+# Ray Project Setup - Multi-GPU Training
 
-This project uses Ray to manage VM instances for distributed computing. We will use 1 head node to orchestrate a job on a larger VM instance with a powerful CPU and 1 GPU.
+This project uses Ray to manage VM instances for distributed computing. In this setup, we'll use a head node to execute a job on larger VM instances with powerful CPUs and multiple GPUs.
+
 ## Getting Started
 
 1. **Clone the repository:**
@@ -122,26 +123,35 @@ This project uses Ray to manage VM instances for distributed computing. We will 
     ray dashboard raycluster.yaml
     ```
 
-16. **Submit a Ray job:**
+## Submitting the Multi-GPU Training Job
 
-    Open a new terminal window and navigate to your project directory:
+After completing all the necessary setup steps, submit the job using the following command, replacing the script with `ray-train-multiple-gpu.py`:
 
-    ```bash
-    cd <project-directory>
-    ```
+```bash
+ray job submit --address http://localhost:8265 --working-dir . -- python3 ray-train-multiple-gpu.py
+```
 
-    Submit the Ray job:
+## Retrieving the Output
 
-    ```bash
-    ray job submit --address http://localhost:8265 --working-dir . -- python3 remote-ray.py
-    ```
+To find the output:
 
-17. **Check the S3 bucket:**
+1. **Connect to the head node via SSH:**
+   
+   ```bash
+   ray attach raycluster.yaml
+   ```
 
-    When the job finishes running, head over to the specified S3 bucket (`ray-bucket-model-output`) where you should find the trained model.
+2. **Navigate to the results directory:**
+   
+   ```bash
+   ls
+   cd ray_results
+   ```
+
+   Here, you'll find the results of the training job.
 
 ## Overview
 
-Ray is a distributed computing framework that allows you to easily scale your applications across multiple machines. In this setup, you'll use Ray to manage a head node and a larger VM instance with a powerful CPU and 1 GPU, leveraging their respective hardware capabilities to perform computational tasks efficiently.
+Ray is a distributed computing framework that allows you to easily scale your applications across multiple machines. In this setup, you'll use Ray to manage a head node and a larger VM instance with a powerful CPU and multiple GPUs, leveraging their respective hardware capabilities to perform computational tasks efficiently.
 
 For detailed documentation on Ray, visit the [Ray documentation](https://docs.ray.io/).

@@ -1,0 +1,70 @@
+# An unique identifier for the head node and workers of this cluster.
+cluster_name: ray-cluster
+
+# Cloud-provider specific configuration.
+provider:
+  type: aws
+  region: eu-central-1
+  cache_stopped_nodes: False
+
+auth:
+  ssh_user: ubuntu
+
+# The maximum number of workers nodes to launch in addition to the head
+# node.
+min_workers: 1
+max_workers: 5
+
+idle_timeout_minutes: 10
+
+# Tell the autoscaler the allowed node types and the resources they provide.
+# The key is the name of the node type, which is for debugging purposes.
+# The node config specifies the launch config and physical instance type.
+available_node_types:
+  ray.head.default:
+    resources:
+      #CPU: 4
+      resources: 5
+    node_config:
+      ImageId: ami-07652eda1fbad7432
+      InstanceType: m7i.large
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 128
+  ray.worker.default:
+    resources:
+      #CPU: 1
+      resources: 15
+    node_config:
+      IamInstanceProfile:
+          Arn: arn:aws:iam::<your-account-id>:instance-profile/ray-s3-instance-profile
+      ImageId: ami-07652eda1fbad7432
+      InstanceType: p3.2xlarge
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 256
+
+head_node_type: ray.head.default
+
+head_start_ray_commands:
+  - ray stop
+  - ray start --head --port=6379 --object-manager-port=8076 --autoscaling-config=~/ray_bootstrap_config.yaml --dashboard-host=0.0.0.0
+  - pip show ray
+
+worker_start_ray_commands:
+  - ray stop
+  - sudo DEBIAN_FRONTEND=noninteractive apt install nvidia-driver-550 -y
+  - sudo DEBIAN_FRONTEND=noninteractive apt install nvidia-utils-550 -y
+  - sudo modprobe -r nvidia
+  - sudo modprobe nvidia
+  - ray start --address=$RAY_HEAD_IP:6379 --object-manager-port=8076
+
+setup_commands:
+  - sleep 4
+  - sudo apt update
+  - sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
+  - sudo DEBIAN_FRONTEND=noninteractive apt install python3-pip -y
+  - pip install -U "ray[data,train,tune,serve]"
+  - pip install torch transformers datasets numpy==1.26.4 soundfile librosa accelerate boto3 evaluate
