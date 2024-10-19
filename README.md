@@ -1,6 +1,6 @@
 # Ray Project Setup
 
-This project uses Ray to manage VM instances for distributed computing. We will use 1 head node to orchestrate a job on a larger VM instance with a powerful CPU and 1 GPU.
+This project uses Ray to manage VM instances for distributed computing. We will use 1 head node to orchestrate a job on a larger VM instance with a powerful CPU and 1 GPU. Tested and working using Python 3.11
 ## Getting Started
 
 1. **Clone the repository:**
