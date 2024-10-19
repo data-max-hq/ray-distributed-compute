@@ -1,6 +1,6 @@
 # Ray Project Setup - Multi-GPU Training
 
-This project uses Ray to manage VM instances for distributed computing. In this setup, we'll use a head node to execute a job on larger VM instances with powerful CPUs and multiple GPUs.
+This project uses Ray to manage VM instances for distributed computing. In this setup, we'll use a head node to execute a job on larger VM instances with powerful CPUs and multiple GPUs. Tested and working using Python 3.11.
 
 ## Getting Started
 
