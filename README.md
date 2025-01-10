@@ -145,3 +145,6 @@ This project uses Ray to manage VM instances for distributed computing. We will 
 Ray is a distributed computing framework that allows you to easily scale your applications across multiple machines. In this setup, you'll use Ray to manage a head node and a larger VM instance with a powerful CPU and 1 GPU, leveraging their respective hardware capabilities to perform computational tasks efficiently.
 
 For detailed documentation on Ray, visit the [Ray documentation](https://docs.ray.io/).
+
+
+Made with ❤️ by [datamax.ai](https://www.datamax.ai/).
